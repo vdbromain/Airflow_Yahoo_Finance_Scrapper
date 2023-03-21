@@ -53,7 +53,6 @@ The data cleaning, shapping, csv creating and saving is done in the airflow-cont
    ```
    docker build -t airflow_image .
    ```
-   ```
 
 5. Create a connection between containers using docker network
    
@@ -62,20 +61,18 @@ The data cleaning, shapping, csv creating and saving is done in the airflow-cont
    
    ```
    
-   ```
 
 6. Create the docker container with Airflow and the requirements.txt in it 
    
    ```
    docker run -itd --rm --network scrap --name airflow-container -p 9090:8080 -v $(pwd):/docker_env airflow_image
    ```
-   ```
+   
 
 7. Create the docker container with Selenium_Grid with Chromium in it. This command will automatically pull the docker's image needed to run the container :
    
    ```
    docker run -itd --rm --network scrap --name selenium-grid-container -p 4444:4444 --shm-size 2g seleniarm/standalone-chromium:latest
-   ```
    ```
 
 8. As both dockers'containers are on the same network called "scrap", you just have to go to the Airflow's portal by clicking on this link : http://0.0.0.0:9090/
