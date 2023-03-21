@@ -56,13 +56,13 @@ The data cleaning, shapping, csv creating and saving is done in the airflow-cont
 
 5. Create a connection between containers using docker network
    
-   ```docker network create scrap```
+   ```
    docker network create scrap
    ```
 
 6. Create the docker container with Airflow and the requirements.txt in it 
    
-   ```docker
+   ```
    docker run -itd --rm --network scrap --name airflow-container -p 9090:8080 -v $(pwd):/docker_env airflow_image
    ```
 
