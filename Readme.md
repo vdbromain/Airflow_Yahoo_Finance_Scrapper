@@ -78,6 +78,7 @@ The data cleaning, shapping, csv creating and saving is done in the airflow-cont
 8. As both dockers'containers are on the same network called "scrap", you just have to go to the Airflow's portal by clicking on this link : http://0.0.0.0:9090/
    
    Username : admin
+   
    Password : admin
 
    ![Airflow_Login.png](img/Airflow_Login.png)
