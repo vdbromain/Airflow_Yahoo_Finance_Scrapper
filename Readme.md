@@ -1,68 +1,99 @@
+<div>
+<h1 align="center"> Airflow Yahoo Finance Scraper </h1>
+</div>
+
 ## Description
 
-In this project, I plan to scrap financial data from yahoo finance website to train myself to implemente automated webscrapping with Selenium, Airflow, Docker and Selenium Grid togheter. My main focus was to learn and apply airflow in this project.
-
-
+In this project, I implemented an automated Yahoo Finance webscraping script using Selenium, Apache Airflow, Docker and Selenium Grid togheter.
 
 Duration : 9 days
 
+## Tools
 
+- Selenium : Python library for scraping pages containing javascript code
 
-The project has this structure :
+- Apache Airflow : Python library to schedule scripts
 
-- Dags folder : to define airflow's dags in one file and the my scrapper's functions in another one.
+- Docker : an application to run other applications in isolated small boxes named containers which are built from an image who is built from a Dockerfile.
 
-- Dockerfile : to create the environnement where everything will work toegheter.
+- Selenium Grid : a required app who allow,among other things, to run selenium's code in a Docker container
 
-- requirements.txt : required by the Dockerfile to build the docker's image.
+## Project Structure
 
+- Dags folder : define airflow's DAGs (Directed Acyclic Graph) in one file and my scraper's functions in another one. 
+  
+  An Airflow DAG is a collection of all the tasks you want to run, organized in a way that reflects their relationships and dependencies.
 
+  ![DAG.png](img/DAG.png)
 
-## Installation
+- Dockerfile : create the environnement where everything will work toegheter.
+
+- requirements.txt : required by the Dockerfile to build the docker's image who will create the docker container in which the script will run.
+
+Here is a picture to show you the project's structure
+
+![Main_diag_airflow.png](img/Main_diag_airflow.png)
+
+As you can see in the airflow-container, airflow is managing everything.
+
+To clarify the relation between both containers, the selenium-grid-container is only needed for the scraping part. My python script (who is located in the airflow-container) has as selenium's webdriver, the name of the selenium-grid-container with that structure : [http://selenium-grid-container:4444/wd/hub](http://selenium-grid-container:4444/wd/hub). At the end of the scraping, the selenium-grid-container is not used anymore.
+
+The data cleaning, shapping, csv creating and saving is done in the airflow-container.
+
+## Installation and Usage
 
 1. To launch this project, you'll need to install and run Docker Desktop on your computer. You can find all you need to install it here : [Download Docker Desktop | Docker](https://www.docker.com/products/docker-desktop/)
 
 2. Clone this repo
 
-3. Open a terminal in your local repo at the root of the folder
+3. Open the root of the folder in your terminal
 
-4. Create the image from the Dockerfile who set everything up for airflow working on any computer 
+4. Build the docker image using Dockerfile to be able to use Airflow with any operating system
    
-   '''docker build -t airflow_image .'''
+   ```
+   docker build -t airflow_image .
+   ```
+   ```
 
-5. Create the docker's network for the containers to connect each other
+5. Create a connection between containers using docker network
    
-   ''docker network create scrap'''
+   ```docker network create scrap```
+   docker network create scrap
+   
+   ```
+   
+   ```
 
-6. Create the docker container with airflow and the requirements.txt in it 
+6. Create the docker container with Airflow and the requirements.txt in it 
    
-   '''docker run -itd --rm --network scrap --name airflow-container -p 9090:8080 -v $(pwd):/docker_env airflow_image'''
+   ```
+   docker run -itd --rm --network scrap --name airflow-container -p 9090:8080 -v $(pwd):/docker_env airflow_image
+   ```
+   ```
 
 7. Create the docker container with Selenium_Grid with Chromium in it. This command will automatically pull the docker's image needed to run the container :
    
-   '''docker run -itd --rm --network scrap --name selenium-grid-container -p 4444:4444 --shm-size 2g seleniarm/standalone-chromium:latest'''
+   ```
+   docker run -itd --rm --network scrap --name selenium-grid-container -p 4444:4444 --shm-size 2g seleniarm/standalone-chromium:latest
+   ```
+   ```
 
-8. As both dockers'containers are on the same network called "scrap", you just have to go on http://0.0.0.0:9090/
+8. As both dockers'containers are on the same network called "scrap", you just have to go to the Airflow's portal by clicking on this link : http://0.0.0.0:9090/
    
+   Username : admin
+   Password : admin
+
+   ![Airflow_Login.png](img/Airflow_Login.png)
+
+9. You click on the button on the left to activate the DAG and after a few seconds, you'll see a new folder named "data" that contains a new file with the scraped data.
    
+   
    
-   ![Airflow_Login.png](./img/Airflow_Login.png)
-
-9. Username : admin
-
-10. Password : admin
-
-11. You click on the button on the left to activate the dag and after a few seconds, you'll see and appear a new folder named "data" with inside a new file with the scrapped data.
-    
-    
-    
-    ![Airflow_Dag_Page.png](img/Airflow_Dag_Page.png)
-    
-    
+   ![Airflow_Dag_Page.png](img/Airflow_Dag_Page.png)
 
 ## Results
 
-This project manages to scrap datas from yahoo finance website for 1 ticker (ACN in my example) and it can do it everyday by itself. The scrapped datas are :
+My solution scraped Yahoo Finance data for one ticker ("ACN") daily following a preset shcedule. The stock informations obtained from the scraper includes :
 
 - Date
 
@@ -78,41 +109,31 @@ This project manages to scrap datas from yahoo finance website for 1 ticker (ACN
 
 - Volume
 
-The main goal for this project was to automate the whole process. Following that goal, I had to develop 2 differents dockers'containers, here is the diagram of them :
+which are important to investors interested in financial markets.
 
-
-
-![Main_diag_airlfow.png](img/Main_diag_airflow.png)
-
-As you can see in the airflow-container, airflow is managing everything.
-
-To clarify the relation between both containers, the selenium-grid-container is only needed for the scrapping part. My python script (who is located in the airflow-container) has as selenium's webdriver, the name of the selenium-grid-container with that structure : http://selenium-grid-container:4444/wd/hub. At the end of the scrapping, the selenium-grid-container is not used anymore.
-
-The data cleaning, shapping, csv creating and saving is done in the airflow-container.
+The main goal for this project was creating a script that automates the processes. This structure can be "easily" adapted to scrap data from multiple companies, updated regularly on an user defined scheduled, used on any operating system, and deployed online if needed.
 
 ## Improvements
 
-- ###### Regarding the scrapper :
+- ###### scrapper
   
-  - Adapt the scrapping script to scrap 100 data's companies
+  - Adapt the scrapping script to scrap stock informations of 100+ companies
   
-  - Divided the scrapping process between several threads to speed up the process
+  - Implement threading to speed up the scraping process
 
-- ###### Regarding data's storage :
+- ###### data's storage :
   
-  - Create a database to store the whole scrapped data to facilitate data management, data updating and the access to it
+  - Create a database to store the scraped data to facilitate data management (updating) and access to it
 
-- ###### Regarding docker
+- ###### docker
   
-  - Create a docker-compose file to facilitate the deployment and the program's utilisation
+  - Create a docker-compose file to skip step 4 to step 7 included in the installation and usage procédure above.
 
-- ###### Regarding deployment
+- ###### deployment
   
-  - Deploy it on the cloud to set a first step 
+  - Deploy it on the cloud 
   
-  - Create an online app where people could ask for
-
-
+  - Create an online app where users could interact directly with the scraper selecting the ticker, the timing range,... they want.
 
 ## Contact
 
@@ -124,5 +145,3 @@ The data cleaning, shapping, csv creating and saving is done in the airflow-cont
   <img title="" src="img/linked-in-logo.png" alt="linked-in-logo.png" width="62">
 </a>
 </div>
-
-
