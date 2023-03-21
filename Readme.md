@@ -23,7 +23,7 @@ Duration : 9 days
 - Dags folder : define airflow's DAGs (Directed Acyclic Graph) in one file and my scraper's functions in another one. 
   
   An Airflow DAG is a collection of all the tasks you want to run, organized in a way that reflects their relationships and dependencies.
-
+  
   ![DAG.png](img/DAG.png)
 
 - Dockerfile : create the environnement where everything will work toegheter.
@@ -50,39 +50,39 @@ The data cleaning, shapping, csv creating and saving is done in the airflow-cont
 
 4. Build the docker image using Dockerfile to be able to use Airflow with any operating system
    
-   ```
+   ```docker
    docker build -t airflow_image .
    ```
-   ```
+   
+   
 
 5. Create a connection between containers using docker network
    
-   ```docker network create scrap```
+   ```dock```
    docker network create scrap
-   
-   ```
-   
    ```
 
 6. Create the docker container with Airflow and the requirements.txt in it 
    
-   ```
+   ```docker
    docker run -itd --rm --network scrap --name airflow-container -p 9090:8080 -v $(pwd):/docker_env airflow_image
    ```
-   ```
+   
+   
 
 7. Create the docker container with Selenium_Grid with Chromium in it. This command will automatically pull the docker's image needed to run the container :
    
-   ```
+   ```docker
    docker run -itd --rm --network scrap --name selenium-grid-container -p 4444:4444 --shm-size 2g seleniarm/standalone-chromium:latest
    ```
-   ```
+   
+   
 
 8. As both dockers'containers are on the same network called "scrap", you just have to go to the Airflow's portal by clicking on this link : http://0.0.0.0:9090/
    
    Username : admin
    Password : admin
-
+   
    ![Airflow_Login.png](img/Airflow_Login.png)
 
 9. You click on the button on the left to activate the DAG and after a few seconds, you'll see a new folder named "data" that contains a new file with the scraped data.
