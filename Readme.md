@@ -131,7 +131,7 @@ The main goal for this project was creating a script that automates the processe
   
   - Deploy it on the cloud 
   
-  - Create an online app where users could interact directly with the scraper selecting the ticker, the timing range,... they want.
+  - Create an online app where users could interact directly with the scraper selecting the ticker, the timing range... they want.
 
 ## Contact
 
