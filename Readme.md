@@ -2,6 +2,8 @@
 <h1 align="center"> Airflow Yahoo Finance Scraper </h1>
 </div>
 
+
+
 ## Description
 
 In this project, I implemented an automated Yahoo Finance webscraping script using Selenium, Apache Airflow, Docker and Selenium Grid togheter.
@@ -53,13 +55,14 @@ The data cleaning, shapping, csv creating and saving is done in the airflow-cont
    ```docker
    docker build -t airflow_image .
    ```
-   
-   
+   ```
 
 5. Create a connection between containers using docker network
    
-   ```dock```
+   ```docker network create scrap```
    docker network create scrap
+   ```
+   
    ```
 
 6. Create the docker container with Airflow and the requirements.txt in it 
@@ -67,20 +70,19 @@ The data cleaning, shapping, csv creating and saving is done in the airflow-cont
    ```docker
    docker run -itd --rm --network scrap --name airflow-container -p 9090:8080 -v $(pwd):/docker_env airflow_image
    ```
-   
-   
+   ```
 
 7. Create the docker container with Selenium_Grid with Chromium in it. This command will automatically pull the docker's image needed to run the container :
    
    ```docker
    docker run -itd --rm --network scrap --name selenium-grid-container -p 4444:4444 --shm-size 2g seleniarm/standalone-chromium:latest
    ```
-   
-   
+   ```
 
 8. As both dockers'containers are on the same network called "scrap", you just have to go to the Airflow's portal by clicking on this link : http://0.0.0.0:9090/
    
    Username : admin
+   
    Password : admin
    
    ![Airflow_Login.png](img/Airflow_Login.png)
@@ -133,7 +135,7 @@ The main goal for this project was creating a script that automates the processe
   
   - Deploy it on the cloud 
   
-  - Create an online app where users could interact directly with the scraper selecting the ticker, the timing range,... they want.
+  - Create an online app where users could interact directly with the scraper selecting the ticker, the timing range... they want.
 
 ## Contact
 
