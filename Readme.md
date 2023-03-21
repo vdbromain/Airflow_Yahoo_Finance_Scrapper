@@ -2,6 +2,8 @@
 <h1 align="center"> Airflow Yahoo Finance Scraper </h1>
 </div>
 
+
+
 ## Description
 
 In this project, I implemented an automated Yahoo Finance webscraping script using Selenium, Apache Airflow, Docker and Selenium Grid togheter.
