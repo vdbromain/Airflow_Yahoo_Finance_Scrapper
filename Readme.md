@@ -138,11 +138,11 @@ The main goal for this project was creating a script that automates the processe
 
 ## Contact
 
-<div>
-<a href="https://github.com/vdbromain">
-  <img title="" src="img/GitHub-logo.png" alt="GitHub-logo.png" width="62">
-</a>
+<div align="center">
 <a href="https://www.linkedin.com/in/vdbromain/">
   <img title="" src="img/linked-in-logo.png" alt="linked-in-logo.png" width="62">
+</a>
+<a href="https://github.com/vdbromain">
+  <img title="" src="img/GitHub-logo.png" alt="GitHub-logo.png" width="62">
 </a>
 </div>
